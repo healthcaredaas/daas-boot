@@ -1,0 +1,10 @@
+mybatis-plus:
+  configuration:
+    ## 自动驼峰命名规则映射
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: FULL
+  mapper-locations: classpath*:mybatis/*.xml,classpath*:mapper/*.xml
+  global-config:
+    banner: false
+    db-config:
+      where-strategy: not_empty

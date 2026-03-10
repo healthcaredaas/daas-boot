@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>daas-boot</artifactId>
+        <groupId>cn.healthcaredaas</groupId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>daas-security</artifactId>
+    <name>DaaS : Boot : Security</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>daas-security-core</module>
+        <module>daas-security-authentication</module>
+        <module>daas-security-authorization</module>
+    </modules>
+
+</project>

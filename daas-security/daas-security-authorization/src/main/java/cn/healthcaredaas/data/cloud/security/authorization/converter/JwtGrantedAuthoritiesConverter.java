@@ -1,0 +1,74 @@
+package cn.healthcaredaas.data.cloud.security.authorization.converter;
+
+import cn.healthcaredaas.data.cloud.security.core.entity.OAuth2GrantedAuthority;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
+/**
+
+ * @ClassName： JwtGrantedAuthoritiesConverter.java
+ * @Description:
+ * @Author： chenpan
+ * @Date：2024/3/10 15:43
+ * @Modify：
+ */
+public class JwtGrantedAuthoritiesConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
+
+    private static final Collection<String> WELL_KNOWN_AUTHORITIES_CLAIM_NAMES = Arrays.asList("scope", "scp");
+
+    @Getter
+    @Setter
+    private String authoritiesClaimName;
+
+    @Override
+    public Collection<GrantedAuthority> convert(Jwt jwt) {
+        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        for (String authority : getAuthorities(jwt)) {
+            grantedAuthorities.add(new OAuth2GrantedAuthority(authority));
+        }
+        return grantedAuthorities;
+    }
+
+    private String getAuthoritiesClaimName(Jwt jwt) {
+        if (this.authoritiesClaimName != null) {
+            return this.authoritiesClaimName;
+        }
+        for (String claimName : WELL_KNOWN_AUTHORITIES_CLAIM_NAMES) {
+            if (jwt.hasClaim(claimName)) {
+                return claimName;
+            }
+        }
+        return null;
+    }
+
+    private Collection<String> getAuthorities(Jwt jwt) {
+        String claimName = getAuthoritiesClaimName(jwt);
+        if (claimName == null) {
+            return Collections.emptyList();
+        }
+        Object authorities = jwt.getClaim(claimName);
+        if (authorities instanceof String) {
+            if (StringUtils.hasText((String) authorities)) {
+                return Arrays.asList(((String) authorities).split(" "));
+            }
+            return Collections.emptyList();
+        }
+        if (authorities instanceof Collection) {
+            return castAuthoritiesToCollection(authorities);
+        }
+        return Collections.emptyList();
+    }
+
+    private Collection<String> castAuthoritiesToCollection(Object authorities) {
+        return (Collection<String>) authorities;
+    }
+}

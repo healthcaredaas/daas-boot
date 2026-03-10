@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>daas-boot</artifactId>
+    <version>${revision}</version>
+    <name>DaaS : Boot</name>
+    <description>Data as Service Cloud Platform</description>
+    <modules>
+        <module>daas-dependencies</module>
+        <module>daas-core</module>
+        <module>daas-data</module>
+        <module>daas-web</module>
+        <module>daas-security</module>
+        <module>daas-scheduler</module>
+        <module>daas-dataformat</module>
+        <module>daas-exchange</module>
+        <module>daas-id</module>
+        <module>daas-oss</module>
+        <module>daas-ops-metric</module>
+    </modules>
+
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>cn.healthcaredaas</groupId>
+        <artifactId>daas-dependencies</artifactId>
+        <version>${revision}</version>
+        <relativePath>daas-dependencies/pom.xml</relativePath>
+    </parent>
+
+    <properties>
+        <revision>0.0.1-SNAPSHOT</revision>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
